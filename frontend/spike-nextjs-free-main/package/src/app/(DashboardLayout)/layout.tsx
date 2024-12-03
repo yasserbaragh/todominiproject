@@ -1,0 +1,71 @@
+"use client"
+import { styled, Container, Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import Header from "@/app/(DashboardLayout)/layout/header/Header";
+import Sidebar from "@/app/(DashboardLayout)/layout/sidebar/Sidebar";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "@/redux/store";
+import { redirect, useRouter } from "next/navigation";
+import { useCookies } from "react-cookie";
+
+const MainWrapper = styled("div")(() => ({
+  display: "flex",
+  minHeight: "100vh",
+  width: "100%",
+  padding: "20px",
+}));
+
+const PageWrapper = styled("div")(() => ({
+  display: "flex",
+  flexGrow: 1,
+  paddingBottom: "60px",
+  flexDirection: "column",
+  zIndex: 1,
+  backgroundColor: "transparent",
+}));
+
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true)
+
+  const role = useAppSelector((state) => state.authReducer.value.isAdmin)
+
+  return (
+    <MainWrapper className="mainwrapper">
+      <PageWrapper className="page-wrapper">
+        {/* ------------------------------------------- */}
+        {/* PageContent */}
+        {/* ------------------------------------------- */}
+        <Header />
+        <Container
+          sx={{
+            maxWidth: "1300px !important",
+          }}
+        >
+          {/* ------------------------------------------- */}
+          {/* Header */}
+          
+          {/* ------------------------------------------- */}
+          {/* ------------------------------------------- */}
+          {/* Page Route */}
+          {/* ------------------------------------------- */}
+          <Box sx={{ minHeight: "calc(100vh - 170px)", py: 3  }}>
+            {children}
+          </Box>
+          {/* ------------------------------------------- */}
+          {/* End Page */}
+          {/* ------------------------------------------- */}
+        </Container>
+      </PageWrapper>
+    </MainWrapper>
+  );
+}
