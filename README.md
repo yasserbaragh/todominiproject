@@ -31,7 +31,7 @@ Clone the repository to your local machine:
 git clone https://github.com/yasserbaragh/todominiproject.git
 cd todominiproject
 
-#### Backend Setup (FastAPI with Pipenv)
+### Backend Setup (FastAPI with Pipenv)
 Step 1: Install Python Dependencies
 Navigate to the backend directory:
 
@@ -48,6 +48,9 @@ On Windows:
 
 pipenv install
 pipenv shell
+
+for intalling the dependencies execute this command:
+pip install -r requirements.txt
 
 ### set up mysql database
 in mysql wokbench create a database called todo
