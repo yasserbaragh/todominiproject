@@ -53,7 +53,7 @@ for intalling the dependencies execute this command:
 pip install -r requirements.txt
 
 ### set up mysql database
-in mysql wokbench create a database called todo
+in mysql wokbench create a schema called todo
 add the url of the database in /backend/db => URL_DATABASE (remplace the existing url)
 
 ##### run the backend
