@@ -22,10 +22,10 @@ async def create_new_user(user: UserCreate, db: db_dependency):
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 async def registerUser(user: UserCreate, db: db_dependency):
-    user = create_user(db=db, user=user, roleUsr="user")
+    user = create_user(db=db, user=user)
     if not user:
         raise HTTPException(status_code=400, detail="Invalid credentials")
-    token = createToken(username=user.username, id=user.id, email=user.email, endDate=timedelta(minutes=20))
+    token = createToken(username=user.username, id=user.id, endDate=timedelta(days=20))
 
     return {'username': user.username, 'id': user.id, "firstName": user.first_name,
             "lastName": user.last_name, "role": user.role, "email": user.email,

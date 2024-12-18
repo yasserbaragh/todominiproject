@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import Link from 'next/link';
 
 import CustomTextField from '@/app/(DashboardLayout)/components/forms/theme-elements/CustomTextField';
@@ -27,6 +27,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
     })
     const [cookie, setCookie] = useCookies(['token'])
     const [token, setToken] = React.useState("")
+    const [role, setRole] = React.useState("user")
 
     const changeValues = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -54,12 +55,12 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
                     first_name: values.firstName,
                     last_name: values.lastName,
                     password: values.password,
-                    role: "user"
+                    role: role
                 }),
             });
 
             if (!response.ok) {
-                const errorData = await response.json();  // Get the error response if any
+                const errorData = await response.json();
                 console.log('Error:', errorData);
                 return
             }
@@ -100,31 +101,43 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
                         Username
                     </Typography>
                     <CustomTextField id="name" variant="outlined" fullWidth name="username" value={values.username}
-                    onChange={changeValues}/>
+                        onChange={changeValues} />
 
                     <Typography variant="subtitle1"
                         fontWeight={600} component="label" htmlFor='email' mb="5px" mt="25px">Email Address</Typography>
-                    <CustomTextField id="email" variant="outlined" fullWidth  name="email" value={values.email}
-                    onChange={changeValues}/>
+                    <CustomTextField id="email" variant="outlined" fullWidth name="email" value={values.email}
+                        onChange={changeValues} />
 
                     <Typography variant="subtitle1"
                         fontWeight={600} component="label" htmlFor='firstName' mb="5px">
                         Fist Name
                     </Typography>
                     <CustomTextField id="firstName" variant="outlined" fullWidth name="firstName" value={values.firstName}
-                    onChange={changeValues} />
+                        onChange={changeValues} />
 
                     <Typography variant="subtitle1"
                         fontWeight={600} component="label" htmlFor='lastName' mb="5px">
                         Last Name
                     </Typography>
                     <CustomTextField id="lastName" variant="outlined" fullWidth name="lastName" value={values.lastName}
-                    onChange={changeValues} />
+                        onChange={changeValues} />
 
                     <Typography variant="subtitle1"
                         fontWeight={600} component="label" htmlFor='password' mb="5px" mt="25px">Password</Typography>
                     <CustomTextField type="password" id="password" variant="outlined" fullWidth name="password" value={values.password}
-                    onChange={changeValues}/>
+                        onChange={changeValues} />
+
+                    <FormControl component="fieldset" sx={{ mt: 3 }}>
+                        <FormLabel component="legend">Select Role</FormLabel>
+                        <RadioGroup
+                            row
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                        >
+                            <FormControlLabel value="user" control={<Radio />} label="User" />
+                            <FormControlLabel value="admin" control={<Radio />} label="Admin" />
+                        </RadioGroup>
+                    </FormControl>
                 </Stack>
                 <Button color="primary" variant="contained" size="large" fullWidth
                     onClick={onLogIn}>

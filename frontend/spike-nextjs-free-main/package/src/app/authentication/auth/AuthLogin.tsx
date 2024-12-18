@@ -129,6 +129,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           
           type="button"
           onClick={onLogIn}
+          className="mt-2"
         >
           Sign In
         </Button>

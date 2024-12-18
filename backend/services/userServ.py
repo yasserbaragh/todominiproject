@@ -31,7 +31,7 @@ def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
 
-def create_user(db: Session, user: UserCreate, roleUsr: str):
+def create_user(db: Session, user: UserCreate):
     print("dd ", user)
     hashed_password = hash_password(user.password) 
     db_user = User(
@@ -40,7 +40,7 @@ def create_user(db: Session, user: UserCreate, roleUsr: str):
         password=hashed_password,
         first_name=user.first_name,
         last_name=user.last_name,
-        role=roleUsr
+        role=user.role
     )
     db.add(db_user)
     db.commit()
