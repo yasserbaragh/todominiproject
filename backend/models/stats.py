@@ -6,6 +6,6 @@ class Stats(Base):
     __tablename__ = "stats"
 
     id = Column(Integer, primary_key=True, index=True)
-    EditedNum = Column(Integer, nullable=False)
-    deletedNum = Column(Integer, nullable=False)
-    totalNum = Column(Integer, nullable=False)
+    EditedNum = Column(Integer, nullable=False,  default=0)
+    deletedNum = Column(Integer, nullable=False,  default=0)
+    totalNum = Column(Integer, nullable=False,  default=0)

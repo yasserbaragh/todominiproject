@@ -8,16 +8,32 @@ from datetime import timedelta
 from services.userServ import ALGORITHM, SECRET_KEY
 from jose import jwt
 from jose.exceptions import JWTError
+from models.stats import Stats
 
 router = APIRouter()
 
 oathBearer = OAuth2PasswordBearer(tokenUrl = '/')
+
+def ensure_stats_exists(db: Session):
+    stat = db.query(Stats).filter(Stats.id == 1).first()
+    if not stat:
+        # Create a new Stats record with default values
+        new_stat = Stats(id=1)
+        print(new_stat)
+        db.add(new_stat)
+        db.commit()
+        db.refresh(new_stat)
+    return stat or new_stat
 
 @router.post("/users/create", status_code=status.HTTP_201_CREATED)
 async def create_new_user(user: UserCreate, db: db_dependency):
     db_user = get_user_by_username(db, user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="Username already exists")
+    
+    test = ensure_stats_exists(db)
+    if(not test):
+        return
     return create_user(db=db, user=user, roleUsr="admin")
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
@@ -25,6 +41,10 @@ async def registerUser(user: UserCreate, db: db_dependency):
     user = create_user(db=db, user=user)
     if not user:
         raise HTTPException(status_code=400, detail="Invalid credentials")
+    
+    test = ensure_stats_exists(db)
+    if(not test):
+        return
     token = createToken(username=user.username, id=user.id, endDate=timedelta(days=20))
 
     return {'username': user.username, 'id': user.id, "firstName": user.first_name,
